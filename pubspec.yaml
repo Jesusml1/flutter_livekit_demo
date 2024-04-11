@@ -1,0 +1,37 @@
+name: flutter_livekit
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.6
+  livekit_client: ^2.0.2
+  http: ^1.2.1
+  webrtc_interface: ^1.1.2
+  permission_handler: ^11.3.1
+  fluttertoast: ^8.2.4
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+
+
+
+
