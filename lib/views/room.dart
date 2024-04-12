@@ -6,6 +6,7 @@ import 'package:flutter_livekit/exts.dart';
 import 'package:flutter_livekit/widgets/participant_info.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:flutter_livekit/widgets/participant.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class RoomView extends StatefulWidget {
   final Room room;
@@ -29,6 +30,7 @@ class _RoomViewState extends State<RoomView> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
     widget.room.addListener(_onRoomDidUpdate);
     _setUpListeners();
     _sortParticipants();
@@ -61,6 +63,7 @@ class _RoomViewState extends State<RoomView> {
       await _listener.dispose();
       await widget.room.dispose();
     })();
+    WakelockPlus.disable();
     super.dispose();
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter_livekit/exts.dart';
 import 'package:flutter_livekit/widgets/participant_info.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:flutter_livekit/widgets/participant.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class WatchStreamView extends StatefulWidget {
   final Room room;
@@ -28,6 +29,7 @@ class _WatchStreamViewState extends State<WatchStreamView> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
     widget.room.addListener(_onRoomDidUpdate);
     _setUpListeners();
     _sortParticipants();
@@ -60,6 +62,7 @@ class _WatchStreamViewState extends State<WatchStreamView> {
       await _listener.dispose();
       await widget.room.dispose();
     })();
+    WakelockPlus.disable();
     super.dispose();
   }
 

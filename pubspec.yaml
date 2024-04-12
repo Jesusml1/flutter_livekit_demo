@@ -19,6 +19,7 @@ dependencies:
   permission_handler: ^11.3.1
   fluttertoast: ^8.2.4
   flutter_dotenv: ^5.1.0
+  wakelock_plus: ^1.2.4
 
 dev_dependencies:
   flutter_test:
