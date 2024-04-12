@@ -134,7 +134,7 @@ abstract class _ParticipantWidgetState<T extends ParticipantWidget>
                   ? VideoTrackRenderer(
                       activeVideoTrack!,
                       fit: RTCVideoViewObjectFit.RTCVideoViewObjectFitContain,
-                      mirrorMode: VideoViewMirrorMode.mirror,
+                      mirrorMode: VideoViewMirrorMode.off,
                     )
                   : const NoVideoWidget(),
             ),

@@ -254,6 +254,7 @@ class _PreJoinViewState extends State<PreJoinView> {
                               _videoTrack!,
                               fit: webrtc.RTCVideoViewObjectFit
                                   .RTCVideoViewObjectFitContain,
+                                  mirrorMode: VideoViewMirrorMode.off,
                             )
                           : Container(
                               alignment: Alignment.center,
