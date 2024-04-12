@@ -12,9 +12,15 @@ class AvailableRoom {
     required this.numParticipants,
   });
 
-  factory AvailableRoom.fromJson(Map<String, dynamic> json) => AvailableRoom(
-        sid: json['sid'],
-        name: json['name'],
-        numParticipants: json['numParticipants'] as int,
-      );
+  factory AvailableRoom.fromJson(Map<String, dynamic> json) {
+    int numParticipants = 0;
+    if (json['num_participants'] != null) {
+      numParticipants = json['num_participants'] as int;
+    }
+    return AvailableRoom(
+      sid: json['sid'],
+      name: json['name'],
+      numParticipants: numParticipants,
+    );
+  }
 }

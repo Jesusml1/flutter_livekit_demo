@@ -102,17 +102,19 @@ Future<List<AvailableRoom>> getAvailableRooms() async {
       Uri.parse('${Config.apiUri}/get-available-rooms'),
     );
     if (response.statusCode == 200) {
-      final body = jsonDecode(response.body) as List<dynamic>;
-      return body.map((item) => AvailableRoom.fromJson(item)).toList();
+      final body = jsonDecode(response.body);
+      if (body['rooms'] != null) {
+        final rooms = body['rooms'] as List<dynamic>;
+        return rooms.map((item) => AvailableRoom.fromJson(item)).toList();
+      }
     }
     return [];
   } catch (e) {
     return [];
   }
-
 }
 
-Future<String?> generateTokenToJoin({required String roomName }) async{
+Future<String?> generateTokenToJoin({required String roomName}) async {
   try {
     final tokenResponse = await http.get(
       Uri.parse('${Config.apiUri}/generate-token-to-join?room=$roomName'),

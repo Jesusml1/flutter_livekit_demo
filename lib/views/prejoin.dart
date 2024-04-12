@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_livekit/config.dart';
 import 'package:flutter_livekit/live.dart';
 import 'package:flutter_livekit/views/room.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -15,8 +16,7 @@ class PreJoinView extends StatefulWidget {
 }
 
 class _PreJoinViewState extends State<PreJoinView> {
-  static const url = 'ws://10.0.2.2:7880';
-  // static const token = 'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoicHVibGlzaGVyX3VzZXIiLCJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbSI6InRlc3Qtcm9vbSJ9LCJpc3MiOiJkZXZrZXkiLCJleHAiOjE3MTIyNTY1NzksIm5iZiI6MCwic3ViIjoicHVibGlzaGVyX3VzZXIifQ.0_KrNmf8pmntx1_H2Y0huavF6mskpcFONKVfsCEZuVs';
+  final String url = Config.websocketLivekitServerUrl;
 
   final _tokenCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
