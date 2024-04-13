@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livekit/config.dart';
+import 'package:flutter_livekit/constansts/video_device.dart';
 import 'package:flutter_livekit/live.dart';
 import 'package:flutter_livekit/views/room.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -29,6 +30,7 @@ class _PreJoinViewState extends State<PreJoinView> {
   List<MediaDevice> _audioInputs = [];
   List<MediaDevice> _videoInputs = [];
   StreamSubscription? _subscription;
+  CameraPosition _selectedCameraPosition = CameraPosition.back;
 
   bool _busy = false;
   bool _enableVideo = true;
@@ -117,10 +119,45 @@ class _PreJoinViewState extends State<PreJoinView> {
         CameraCaptureOptions(
           deviceId: _selectedVideoDevice!.deviceId,
           params: _selectedVideoParameters,
+          cameraPosition: _selectedCameraPosition,
         ),
       );
       await _videoTrack!.start();
     }
+  }
+
+  Future<void> _changeSelectedVideoDevice() async {
+    await _setEnableAudio(false);
+    await _setEnableVideo(false);
+
+    if (_selectedVideoDevice != null) {
+      if (_selectedVideoDevice!.deviceId == VideoDevicesId.backCamera) {
+        changeCamera(
+          deviceId: VideoDevicesId.frontCamera,
+          cameraPosition: CameraPosition.front,
+        );
+      } else {
+        changeCamera(
+          deviceId: VideoDevicesId.backCamera,
+          cameraPosition: CameraPosition.back,
+        );
+      }
+    }
+
+    await _setEnableAudio(true);
+    await _setEnableVideo(true);
+  }
+
+  void changeCamera({
+    required String deviceId,
+    required CameraPosition cameraPosition,
+  }) {
+    setState(() {
+      _selectedVideoDevice = _videoInputs.firstWhere(
+        (vi) => vi.deviceId == deviceId,
+      );
+      _selectedCameraPosition = cameraPosition;
+    });
   }
 
   _generateToken() async {
@@ -254,7 +291,7 @@ class _PreJoinViewState extends State<PreJoinView> {
                               _videoTrack!,
                               fit: webrtc.RTCVideoViewObjectFit
                                   .RTCVideoViewObjectFitContain,
-                                  mirrorMode: VideoViewMirrorMode.off,
+                              mirrorMode: VideoViewMirrorMode.off,
                             )
                           : Container(
                               alignment: Alignment.center,
@@ -274,7 +311,9 @@ class _PreJoinViewState extends State<PreJoinView> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _changeSelectedVideoDevice();
+                  },
                   child: const Row(
                     children: [
                       Icon(Icons.flip_camera_android),
