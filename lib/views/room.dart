@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_livekit/constansts/video_device.dart';
 import 'package:flutter_livekit/exts.dart';
 import 'package:flutter_livekit/widgets/participant_info.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -229,6 +229,21 @@ class _RoomViewState extends State<RoomView> {
     });
   }
 
+  void changeCamera() async {
+    final currentTrack = (participantTracks.first.participant
+        .videoTrackPublications.first.track as LocalVideoTrack);
+    if (currentTrack.currentOptions.deviceId == VideoDevicesId.backCamera) {
+      await (participantTracks.first.participant.videoTrackPublications.first
+              .track as LocalVideoTrack)
+          .switchCamera(VideoDevicesId.frontCamera);
+    } else if (currentTrack.currentOptions.deviceId ==
+        VideoDevicesId.frontCamera) {
+      await (participantTracks.first.participant.videoTrackPublications.first
+              .track as LocalVideoTrack)
+          .switchCamera(VideoDevicesId.backCamera);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -262,24 +277,32 @@ class _RoomViewState extends State<RoomView> {
             ],
           ),
           Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            child: SizedBox(
-              height: 120,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: math.max(0, participantTracks.length - 1),
-                itemBuilder: (BuildContext context, int index) => SizedBox(
-                  width: 180,
-                  height: 120,
-                  child: ParticipantWidget.widgetFor(
-                    participantTracks[index + 1],
-                  ),
-                ),
-              ),
+            right: 10,
+            bottom: 50,
+            child: ElevatedButton(
+              onPressed: changeCamera,
+              child: const Text('flip camera'),
             ),
-          )
+          ),
+          // Positioned(
+          //   left: 0,
+          //   right: 0,
+          //   top: 0,
+          //   child: SizedBox(
+          //     height: 120,
+          //     child: ListView.builder(
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: math.max(0, participantTracks.length - 1),
+          //       itemBuilder: (BuildContext context, int index) => SizedBox(
+          //         width: 180,
+          //         height: 120,
+          //         child: ParticipantWidget.widgetFor(
+          //           participantTracks[index + 1],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
