@@ -277,8 +277,8 @@ class _RoomViewState extends State<RoomView> {
             ],
           ),
           Positioned(
-            top: 30,
-            left: 10,
+            right: 10,
+            bottom: 50,
             child: ElevatedButton(
               onPressed: changeCamera,
               child: const Text('flip camera'),
